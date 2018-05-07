@@ -15,17 +15,20 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amitshekhar.DebugDB;
 
 public class MainActivity extends AppCompatActivity {
+
+    private ListView listView;
+    final RemindersDbAdapter db = new RemindersDbAdapter(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final String[] from = { RemindersDbAdapter.COL_ID, RemindersDbAdapter.COL_CONTENT, RemindersDbAdapter.COL_IMPORTANT};
-        final RemindersDbAdapter db = new RemindersDbAdapter(this);
         db.open();
         //db.createReminder("hello", true);
         DebugDB.getAddressLog();
@@ -33,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         RemindersSimpleCursorAdapter adapter = new RemindersSimpleCursorAdapter(this,
                 R.layout.reminder_row, cursor, new String[] {RemindersDbAdapter.COL_CONTENT}, new int[]{R.id.textView}
                 , 0);
-        final ListView listView = findViewById(R.id.listview);
+        listView = findViewById(R.id.listview);
         listView.setAdapter(adapter);
 
         FloatingActionButton addButton = (FloatingActionButton) findViewById(R.id.fab);
@@ -42,6 +45,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, UpdateCreateActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        FloatingActionButton deleteButton = (FloatingActionButton)  findViewById(R.id.deleteFab);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                db.deleteAllReminders();
+                Toast.makeText(getApplicationContext(), "You've deleted all reminders :(", Toast.LENGTH_SHORT);
+                notifyListUpdate();
             }
         });
 
@@ -60,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                                 //Delete the thingy.
                                 Reminder reminder = db.fetchReminderById(cursor.getInt(0));
                                 db.deleteReminderById(reminder.getId());
-                                ((RemindersSimpleCursorAdapter)adapterView.getAdapter()).changeCursor(db.fetchAllReminders());
+                                notifyListUpdate();
                                 return true;
                             case R.id.menu_update:
                                 //Update the reminder.
@@ -81,5 +94,10 @@ public class MainActivity extends AppCompatActivity {
     protected Context getContext()
     {
         return this;
+    }
+
+    private void notifyListUpdate()
+    {
+        ((RemindersSimpleCursorAdapter)listView.getAdapter()).changeCursor(db.fetchAllReminders());
     }
 }
