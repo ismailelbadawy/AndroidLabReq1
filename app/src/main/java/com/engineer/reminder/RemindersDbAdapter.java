@@ -63,18 +63,30 @@ public class RemindersDbAdapter {
         }
         mDb.execSQL("INSERT INTO " + TABLE_NAME + " ( " + COL_CONTENT+ ", "+ COL_IMPORTANT + " )" + " Values('" + name + "', " + imp + ");");
     }
+
     /*
     //TODO overloaded to take a reminder
     public long createReminder(Reminder reminder) {
 
     }
+    */
 
     //TODO implement the function fetchReminderById() to get a certain reminder given its id
     public Reminder fetchReminderById(int id) {
-
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + COL_ID + " = " + id, null);
+        if(cursor.getCount()!= 0)
+        {
+            cursor.moveToNext();
+            Reminder reminder = new Reminder(cursor.getInt(cursor.getColumnIndex(RemindersDbAdapter.COL_ID))
+                    , cursor.getString(cursor.getColumnIndex(RemindersDbAdapter.COL_CONTENT))
+                    , cursor.getInt(cursor.getColumnIndex(RemindersDbAdapter.COL_IMPORTANT)));
+            return reminder;
+        }
+        return null;
     }
 
-    */
+
     //TODO implement the function fetchAllReminders() which get all reminders
     public Cursor fetchAllReminders() {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
