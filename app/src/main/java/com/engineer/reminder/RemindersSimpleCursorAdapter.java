@@ -32,7 +32,6 @@ public class RemindersSimpleCursorAdapter extends SimpleCursorAdapter {
             holder = new ViewHolder();
             holder.colImp = cursor.getColumnIndexOrThrow(RemindersDbAdapter.COL_IMPORTANT);
             holder.listTab = view.findViewById(R.id.row_tab);
-            holder.reminderData = view.findViewById(R.id.textView);
             view.setTag(holder);
         }
         if (cursor.getInt(holder.colImp) > 0) {
@@ -40,14 +39,11 @@ public class RemindersSimpleCursorAdapter extends SimpleCursorAdapter {
         } else {
             holder.listTab.setBackgroundColor(ContextCompat.getColor(context,R.color.green));
         }
-        holder.reminderData.setText(cursor.getColumnIndexOrThrow(RemindersDbAdapter.COL_CONTENT));
     }
     static class ViewHolder {
         //store the column index
         int colImp;
         //store the view
         View listTab;
-
-        TextView reminderData;
     }
 }

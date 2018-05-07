@@ -3,4 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <view
+        android:layout_width="5dp"
+        android:layout_height="50dp"
+        android:id="@+id/row_tab"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:paddingLeft="5dp"
+        android:paddingTop="10dp"
+        android:text="ISMAIL"
+        android:textSize="20dp"/>
+
 </LinearLayout>

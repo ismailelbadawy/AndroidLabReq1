@@ -77,7 +77,8 @@ public class RemindersDbAdapter {
     */
     //TODO implement the function fetchAllReminders() which get all reminders
     public Cursor fetchAllReminders() {
-        return mDb.rawQuery(GET_REMINDERS, null);
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        return db.rawQuery(GET_REMINDERS, null);
     }
 
     /*
