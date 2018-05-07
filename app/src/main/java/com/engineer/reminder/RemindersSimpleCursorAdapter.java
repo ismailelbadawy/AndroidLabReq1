@@ -3,6 +3,7 @@ package com.engineer.reminder;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.content.ContextCompat;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SimpleCursorAdapter;
@@ -15,9 +16,12 @@ import org.w3c.dom.Text;
  */
 
 public class RemindersSimpleCursorAdapter extends SimpleCursorAdapter {
+    private LayoutInflater cursorInflater;
+
     public RemindersSimpleCursorAdapter(Context context, int layout, Cursor c, String[]
             from, int[] to, int flags) {
         super(context, layout, c, from, to, flags);
+        cursorInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
     //to use a viewholder, you must override the following two methods and define a ViewHolder class
     @Override
