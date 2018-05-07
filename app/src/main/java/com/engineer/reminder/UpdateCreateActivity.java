@@ -55,6 +55,10 @@ public class UpdateCreateActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Cannot add an empty reminder",Toast.LENGTH_LONG).show();
                         return;
                     }
+                    reminder.setContent(data.getText().toString());
+                    if(checkBox.isChecked()){ reminder.setImportant(1); }else{
+                        reminder.setImportant(0);
+                    }
                     db.updateReminder(reminder);
                     Toast.makeText(getApplicationContext(), "Updated Reminder Successfully", Toast.LENGTH_LONG);
                 }

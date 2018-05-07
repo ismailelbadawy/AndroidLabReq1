@@ -98,7 +98,8 @@ public class RemindersDbAdapter {
 
     //TODO implement the function updateReminder() to update a certain reminder
     public void updateReminder(Reminder reminder) {
-        mDb.rawQuery("UPDATE " + TABLE_NAME + " SET " + RemindersDbAdapter.COL_IMPORTANT + " = " + reminder.getImportant() + " , " + RemindersDbAdapter.COL_CONTENT + " = '" + reminder.getContent() + "' WHERE " + COL_ID + " = " + reminder.getId() + ";", null);
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        db.execSQL("UPDATE " + TABLE_NAME + " SET " + RemindersDbAdapter.COL_IMPORTANT + " = " + reminder.getImportant() + " , " + RemindersDbAdapter.COL_CONTENT + " = '" + reminder.getContent() + "' WHERE " + COL_ID + " = " + reminder.getId() + ";");
     }
 
     //TODO implement the function deleteReminderById() to delete a certain reminder given its id
