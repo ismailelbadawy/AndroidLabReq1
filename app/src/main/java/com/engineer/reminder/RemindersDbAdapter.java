@@ -57,6 +57,7 @@ public class RemindersDbAdapter {
 
     //TODO implement the function createReminder() which take the name as the content of the reminder and boolean important...note that the id will be created for you automatically
     public void createReminder(String name, boolean important) {
+        mDb = mDbHelper.getWritableDatabase();
         int imp = 0;
         if(important){
             imp = 1;
@@ -64,12 +65,13 @@ public class RemindersDbAdapter {
         mDb.execSQL("INSERT INTO " + TABLE_NAME + " ( " + COL_CONTENT+ ", "+ COL_IMPORTANT + " )" + " Values('" + name + "', " + imp + ");");
     }
 
-    /*
+
     //TODO overloaded to take a reminder
     public long createReminder(Reminder reminder) {
-
+        createReminder(reminder.getContent(), reminder.getImportant() == 1);
+        return 0;
     }
-    */
+
 
     //TODO implement the function fetchReminderById() to get a certain reminder given its id
     public Reminder fetchReminderById(int id) {
@@ -93,21 +95,22 @@ public class RemindersDbAdapter {
         return db.rawQuery(GET_REMINDERS, null);
     }
 
-    /*
+
     //TODO implement the function updateReminder() to update a certain reminder
     public void updateReminder(Reminder reminder) {
-
+        mDb.rawQuery("UPDATE " + TABLE_NAME + " SET " + RemindersDbAdapter.COL_IMPORTANT + " = " + reminder.getImportant() + " , " + RemindersDbAdapter.COL_CONTENT + " = '" + reminder.getContent() + "' WHERE " + COL_ID + " = " + reminder.getId() + ";", null);
     }
+
     //TODO implement the function deleteReminderById() to delete a certain reminder given its id
     public void deleteReminderById(int nId) {
-
+        mDb.execSQL("DELETE FROM " + TABLE_NAME + " WHERE " + RemindersDbAdapter.COL_ID + " = " + nId );
     }
 
     //TODO implement the function deleteAllReminders() to delete all reminders
     public void deleteAllReminders() {
-
+        mDb.execSQL("DELETE FROM " + TABLE_NAME + ";");
     }
-    */
+
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
         DatabaseHelper(Context context) {
